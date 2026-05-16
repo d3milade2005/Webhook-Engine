@@ -40,7 +40,7 @@ public class Event {
     private Map<String, Object> payload;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "event_status", nullable = false)
+    @Column(name = "status", nullable = false)
     private EventStatus status = EventStatus.PENDING;
 
     @Column(name = "attempt_count", nullable = false)
@@ -49,7 +49,11 @@ public class Event {
     @Column(name = "next_retry_at")
     private OffsetDateTime nextRetryAt;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+    }
 }

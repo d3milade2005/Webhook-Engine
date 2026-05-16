@@ -40,7 +40,11 @@ public class DeliveryAttempt {
     @Column(name = "latency_ms")
     private Integer latencyMs;
 
-    @CreationTimestamp
-    @Column(name = "attempted_at", updatable = false)
+    @Column(name = "attempted_at", nullable = false, updatable = false)
     private OffsetDateTime attemptedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.attemptedAt = OffsetDateTime.now();
+    }
 }

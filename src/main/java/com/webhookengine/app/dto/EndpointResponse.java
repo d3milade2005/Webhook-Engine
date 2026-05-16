@@ -1,6 +1,7 @@
 package com.webhookengine.app.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class EndpointResponse {
     private UUID id;
     private String url;
-    private boolean isActive;
+    @JsonProperty("isActive")
+    private Boolean isActive;
     private OffsetDateTime createdAt;
 }

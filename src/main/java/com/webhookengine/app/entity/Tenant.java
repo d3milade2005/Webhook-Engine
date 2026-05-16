@@ -30,7 +30,11 @@ public class Tenant {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+    }
 }

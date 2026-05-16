@@ -35,7 +35,11 @@ public class DeadLetterEvent {
     @Column(columnDefinition = "TEXT")
     private String reason;
 
-    @CreationTimestamp
-    @Column(name = "dead_lettered_at", updatable = false)
+    @Column(name = "dead_lettered_at", nullable = false, updatable = false)
     private OffsetDateTime deadLetteredAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.deadLetteredAt = OffsetDateTime.now();
+    }
 }
