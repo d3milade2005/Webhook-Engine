@@ -1,0 +1,4 @@
+package com.webhookengine.app.dto;
+
+public class EventResponse {
+}
