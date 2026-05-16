@@ -3,12 +3,12 @@ spring:
     name: webhook-engine
 
   config:
-    import: "optional:file:local.properties"
+    import: "optional:file:./local.properties"
 
   datasource:
-    url: jdbc:postgresql://${APP_DB_HOST:localhost}:${APP_DB_PORT:5433}/${APP_DB_NAME:webhook_engine}
-    username: ${APP_DB_USER}
-    password: ${APP_DB_PASSWORD}
+    url: jdbc:postgresql://${WEBHOOK_ENGINE_DB_HOST:localhost}:${WEBHOOK_ENGINE_DB_PORT:15432}/${WEBHOOK_ENGINE_DB_NAME:webhook_engine}
+    username: ${WEBHOOK_ENGINE_DB_USER}
+    password: ${WEBHOOK_ENGINE_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -41,6 +41,9 @@ spring:
 
 #  security:
 #    api-keys: ${API_KEYS}
+
+server:
+  port: 8081
 
 management:
   endpoints:

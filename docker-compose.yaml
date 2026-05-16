@@ -3,15 +3,15 @@ services:
     image: "postgres:16"
     container_name: webhook_engine_postgres
     environment:
-      POSTGRES_DB: ${APP_DB_NAME}
-      POSTGRES_USER: ${APP_DB_USER}
-      POSTGRES_PASSWORD: ${APP_DB_PASSWORD}
+      POSTGRES_DB: ${WEBHOOK_ENGINE_DB_NAME}
+      POSTGRES_USER: ${WEBHOOK_ENGINE_DB_USER}
+      POSTGRES_PASSWORD: ${WEBHOOK_ENGINE_DB_PASSWORD}
     ports:
-      - "${APP_DB_PORT:-5435}:5432"
+      - "${WEBHOOK_ENGINE_DB_PORT:-15432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${APP_DB_USER} -d ${APP_DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U ${WEBHOOK_ENGINE_DB_USER} -d ${WEBHOOK_ENGINE_DB_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
