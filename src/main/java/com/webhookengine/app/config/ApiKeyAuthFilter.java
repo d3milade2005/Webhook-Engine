@@ -23,6 +23,12 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     private final TenantRepository tenantRepository;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/actuator") || path.equals("/tenants/register");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String apiKey = request.getHeader(API_KEY_HEADER);

@@ -25,6 +25,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/tenants/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
