@@ -3,6 +3,7 @@ package com.webhookengine.app;
 import org.aspectj.runtime.CFlow;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 //The system CFlow
 //1. Someone calls POST /events
@@ -19,6 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //		→ mark DEAD, alert someone
 
 @SpringBootApplication
+@EnableScheduling
 public class AppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);

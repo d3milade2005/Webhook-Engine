@@ -14,10 +14,11 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<Event, UUID> {
     // Used by the scheduler to find events ready for delivery
     @Query("""
-        SELECT e FROM Event e
-        WHERE e.status = 'PENDING'
-        OR (e.status = 'FAILED' AND e.nextRetryAt <= :now)
-        """)
-    List<Event> findEventsReadyForDelivery(OffsetDateTime now);
+    SELECT e FROM Event e
+    WHERE e.status = EventStatus.PENDING
+    OR (e.status = EventStatus.FAILED AND e.nextRetryAt <= :now)
+    OR (e.status = EventStatus.IN_FLIGHT AND e.createdAt <= :stuckThreshold)
+    """)
+    List<Event> findEventsReadyForDelivery(OffsetDateTime now, OffsetDateTime stuckThreshold);
     List<Event> findByTenantIdAndStatus(UUID tenantId, EventStatus status);
 }
