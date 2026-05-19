@@ -54,6 +54,51 @@ services:
       timeout: 5s
       retries: 10
 
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webhook_engine_app
+    environment:
+      WEBHOOK_ENGINE_DB_HOST: postgres
+      WEBHOOK_ENGINE_DB_PORT: 5432
+      WEBHOOK_ENGINE_DB_NAME: ${WEBHOOK_ENGINE_DB_NAME}
+      WEBHOOK_ENGINE_DB_USER: ${WEBHOOK_ENGINE_DB_USER}
+      WEBHOOK_ENGINE_DB_PASSWORD: ${WEBHOOK_ENGINE_DB_PASSWORD}
+      APP_REDIS_HOST: redis
+      APP_REDIS_PORT: 6379
+      APP_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      API_KEYS: ${API_KEYS}
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    restart: on-failure
+
+  dead-letter-analyzer:
+    build:
+      context: ./dead-letter-analyzer
+      dockerfile: Dockerfile
+    container_name: webhook_engine_analyzer
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${WEBHOOK_ENGINE_DB_NAME}
+      DB_USER: ${WEBHOOK_ENGINE_DB_USER}
+      DB_PASSWORD: ${WEBHOOK_ENGINE_DB_PASSWORD}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:-}
+    ports:
+      - "8090:8090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
 volumes:
   postgres_data:
   redis_data:

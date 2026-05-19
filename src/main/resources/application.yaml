@@ -2,6 +2,10 @@ spring:
   application:
     name: webhook-engine
 
+  threads:
+    virtual:
+      enabled: true
+
   config:
     import: "optional:file:./local.properties"
 
